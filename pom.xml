@@ -8,11 +8,17 @@
         <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>zatribune.spring</groupId>
-    <artifactId>jasperreports</artifactId>
+    <groupId>com.tribune.demo</groupId>
+    <artifactId>reporting-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Jasperreports</name>
+    <name>reporting-service</name>
     <description>A Demo project for creating PDF reports in Spring-Boot using Jasperreports.</description>
+    <developers>
+        <developer>
+            <name>Muhammad Ali</name>
+            <email>muhammadali40k@gmail.com</email>
+        </developer>
+    </developers>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -55,6 +61,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>mockwebserver</artifactId>
+            <version>5.0.0-alpha.12</version>
             <scope>test</scope>
         </dependency>
 
@@ -108,6 +120,61 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include> <!-- IT.java for integration tests -->
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Config.class</exclude>
+                        <exclude>**/*Application.class</exclude>
+                        <exclude>**/*Exception.class</exclude>
+                        <exclude>**/*Properties.class</exclude>
+                        <exclude>**/*com/tribune/demo/reporting/model/**/*</exclude>
+                        <exclude>**/*com/tribune/demo/reporting/error/**/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
